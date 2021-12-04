@@ -24,13 +24,18 @@ model = tf.keras.models.Sequential()
 #This is building a model for the neural network. 256 modules on the input layer is a bit much, but is good for example. Sigmoid function just plots data between 0 and 1
 #The next line creates the layers in the middle of the neural network with 256 modules (Dense is the standard in keras it seems) and the final line is the output module where we determine
 #if the tumor is malignant or benign. The sigmoid function gives this as a 0 or 1
-model.add(tf.keras.layers.Dense(256, input_shape=x=train.shape, activation='sigmoid'))
+model.add(tf.keras.layers.Dense(256, input_shape=x_train.shape, activation='sigmoid'))
 model.add(tf.keras.layers.Dense(256, activation='sigmoid'))
 model.add(tf.keras.layers.Dense(1, activation='sigmoid'))
 
 #This is adding the optimizer which is how each neural module is being fine tuned to fit the data. Adam is a relatively common one.
 #The loss function is used to help categorize discreet values? That is how it was explained in the video, will need to learn more.
-#Accuracy of the AI is the metric we want to focus on.
+#Accuracy of the AI is the metric we want to focus on since the goal is an accurate diagnosis of malignant or benign caners.
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-    
+#Here we fit our data. Not really explained in video so this is another point of research for us. Epochs are the number of iterations that the data will take through our Neural Network.
+#This is a bit overkill for such a small data set and with 256 input modules in the network we coded, but good for example.
+model.fit(x_train, y_train, epochs=1000)
+
+#This is a test that compares what y_test should be versus what it actually is.
+model.evaluate(x_test, y_test)
